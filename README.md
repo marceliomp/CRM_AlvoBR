@@ -52,3 +52,16 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 
 Se `/api/health` responder e `/` não, o problema é de rota/render.
 Se ambos derem 404, o problema é configuração do projeto no painel da Vercel (normalmente Root Directory/Project link).
+
+
+## Interface CRM inicial (já navegável)
+Após deploy, o sistema abre no Dashboard do CRM (não mais na tela de bootstrap), com módulos:
+- `/dashboard`
+- `/clientes`
+- `/interacoes`
+- `/oportunidades`
+- `/tarefas`
+- `/configuracoes`
+
+> Nesta fase os dados exibidos são mockados para validar UX/estrutura.
+> Próximo passo: conectar cada módulo às tabelas Supabase com Auth + RLS.

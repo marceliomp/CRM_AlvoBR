@@ -59,3 +59,84 @@ a {
 small.muted {
   color: #555;
 }
+
+.crm-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+.crm-sidebar {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 20px;
+}
+
+.crm-sidebar h2 {
+  margin: 0 0 4px;
+}
+
+.crm-sidebar nav {
+  margin-top: 20px;
+  display: grid;
+  gap: 8px;
+}
+
+.crm-link {
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.crm-link:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.crm-content {
+  padding: 24px;
+}
+
+.crm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  background: #fff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+th {
+  background: #f8fbfc;
+  color: #15343e;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .crm-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .crm-sidebar nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
