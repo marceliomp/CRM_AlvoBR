@@ -1,12 +1,37 @@
 # CRM_AlvoBR
 
-Base inicial de arquitetura e dados do CRM interno da Alvo BR.
+Base inicial do CRM interno da Alvo BR, com foco comercial.
 
-## Etapa 1 — Arquitetura
-- Documento: `docs/01-arquitetura.md`
+## Stack
+- Next.js (App Router)
+- Supabase
+- PostgreSQL
+- Supabase Auth
+- Deploy na Vercel
 
-## Etapa 2 — Schema de banco
-- Migração SQL: `supabase/migrations/20260316_initial_crm_schema.sql`
+## Rodar localmente
+1. Instale dependências:
+   ```bash
+   npm install
+   ```
+2. Copie variáveis de ambiente:
+   ```bash
+   cp .env.example .env.local
+   ```
+3. Inicie o servidor:
+   ```bash
+   npm run dev
+   ```
+4. Acesse `http://localhost:3000`.
 
-## Etapa 3 — Autenticação e permissões
-- Documento: `docs/02-auth-e-permissoes.md`
+## Deploy na Vercel
+Defina estas variáveis no projeto Vercel:
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+Após isso, faça novo deploy.
+
+## Estrutura atual
+- Arquitetura: `docs/01-arquitetura.md`
+- Auth/permissões: `docs/02-auth-e-permissoes.md`
+- Schema SQL: `supabase/migrations/20260316_initial_crm_schema.sql`
