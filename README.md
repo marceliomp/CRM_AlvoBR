@@ -65,3 +65,20 @@ Após deploy, o sistema abre no Dashboard do CRM (não mais na tela de bootstrap
 
 > Nesta fase os dados exibidos são mockados para validar UX/estrutura.
 > Próximo passo: conectar cada módulo às tabelas Supabase com Auth + RLS.
+
+
+## Autenticação de usuário (Supabase Auth)
+- Tela de login: `/login`
+- Rotas do CRM protegidas por sessão (`/dashboard`, `/clientes`, `/interacoes`, `/oportunidades`, `/tarefas`, `/configuracoes`).
+- Logout disponível no cabeçalho do CRM.
+
+### Configuração obrigatória na Vercel
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://wozytqewzczlhokqhjju.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key-do-projeto>
+```
+
+### Como criar usuário
+1. Acesse Supabase Dashboard > Authentication > Users.
+2. Crie usuário com email e senha.
+3. Faça login em `/login` para acessar o CRM.
