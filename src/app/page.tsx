@@ -38,6 +38,7 @@ export default function HomePage() {
         <article className="card">
           <h3>Próxima etapa</h3>
           <p>Implementar login com Supabase Auth e telas de módulos.</p>
+          <small className="muted">Healthcheck: /api/health</small>
         </article>
       </section>
 
