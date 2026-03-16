@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { getBrowserSupabaseClient } from '@/lib/supabase/browser';
 
 type KPI = { titulo: string; valor: string };
+type EstagioRow = { estagio: string | null };
 
 const fallback: KPI[] = [
   { titulo: 'Leads por origem', valor: 'Instagram: 34 | Indicação: 21 | Tráfego pago: 18' },
@@ -24,19 +25,18 @@ export function DashboardKpis() {
     const supabase = getBrowserSupabaseClient();
 
     const load = async () => {
-      const [{ count: totalLeads }, { count: totalOportunidades }, { count: tarefasAtrasadas }, { data: porEstagio }] =
-        await Promise.all([
-          supabase.from('clientes').select('*', { count: 'exact', head: true }),
-          supabase.from('oportunidades').select('*', { count: 'exact', head: true }),
-          supabase
-            .from('tarefas')
-            .select('*', { count: 'exact', head: true })
-            .lt('vencimento', new Date().toISOString())
-            .neq('status', 'concluida'),
-          supabase.from('oportunidades').select('estagio')
-        ]);
+      const leadsRes = await supabase.from('clientes').select('*', { count: 'exact', head: true });
+      const oppsRes = await supabase.from('oportunidades').select('*', { count: 'exact', head: true });
+      const tarefasRes = await supabase
+        .from('tarefas')
+        .select('*', { count: 'exact', head: true })
+        .lt('vencimento', new Date().toISOString())
+        .neq('status', 'concluida');
 
-      const estagios = (porEstagio ?? []).reduce<Record<string, number>>((acc, item) => {
+      const estagiosRes = await supabase.from('oportunidades').select('estagio');
+      const porEstagio = ((estagiosRes.data as EstagioRow[] | null) ?? []);
+
+      const estagios = porEstagio.reduce<Record<string, number>>((acc, item) => {
         const key = String(item.estagio ?? 'sem_estagio');
         acc[key] = (acc[key] ?? 0) + 1;
         return acc;
@@ -47,13 +47,17 @@ export function DashboardKpis() {
         .map(([k, v]) => `${k}: ${v}`)
         .join(' | ');
 
+      const totalLeads = leadsRes.count ?? 0;
+      const totalOportunidades = oppsRes.count ?? 0;
+      const tarefasAtrasadas = tarefasRes.count ?? 0;
+
       setKpis((prev) =>
         prev.map((item) => {
-          if (item.titulo === 'Leads por origem') return { ...item, valor: `${totalLeads ?? 0} leads cadastrados` };
+          if (item.titulo === 'Leads por origem') return { ...item, valor: `${totalLeads} leads cadastrados` };
           if (item.titulo === 'Oportunidades por estágio') return { ...item, valor: topEstagios || 'Sem dados' };
-          if (item.titulo === 'Tarefas atrasadas') return { ...item, valor: `${tarefasAtrasadas ?? 0} tarefas` };
+          if (item.titulo === 'Tarefas atrasadas') return { ...item, valor: `${tarefasAtrasadas} tarefas` };
           if (item.titulo === 'Taxa de contato') {
-            const taxa = totalLeads ? Math.min(100, Math.round(((totalOportunidades ?? 0) / totalLeads) * 100)) : 0;
+            const taxa = totalLeads ? Math.min(100, Math.round((totalOportunidades / totalLeads) * 100)) : 0;
             return { ...item, valor: `${taxa}%` };
           }
           return item;
