@@ -1,0 +1,16 @@
+.env
+**/.env
+**/.env.*
+!**/.env.example
+node_modules/
+.next/
+dist/
+coverage/
+*.log
+*.db
+*.sqlite*
+**/session/
+**/sessions/
+**/memories/
+**/audio_cache/
+**/image_cache/
